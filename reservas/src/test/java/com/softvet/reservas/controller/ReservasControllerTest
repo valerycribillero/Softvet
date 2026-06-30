@@ -1,0 +1,107 @@
+package com.softvet.reservas.controller;
+
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
+
+import com.softvet.reservas.model.Reserva;
+import com.softvet.reservas.service.ReservasService;
+
+@WebMvcTest(ReservasController.class)
+public class ReservasControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private ReservasService service;
+
+    @Test
+    void listar() throws Exception {
+        List<Reserva> reservas = List.of(
+            new Reserva(
+                1,
+                2026-07-06,
+                16:00,
+                "true",
+                1,
+                1
+            )
+        );
+        when(ReservasService.listar()).thenReturn(reservas);
+        mockMvc.perform(get("/reservas"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void crearReserva() throws Exception {
+        String recipeJson = """
+                {
+                    "id": 1,
+                    "fecha": 2026-07-06,
+                    "disponible": "true"
+                    "pagoId": 1,
+                    "servicioId": 1
+                }
+                """;
+        Recipe reservaGuardada = new Reserva(
+            1,
+            2026-07-06,
+            16:00,
+            "true",
+            1,
+            1
+        );
+        when(ReservasService.crearReserva(any(Reserva.class))).thenReturn(reservaGuardada);
+        mockMvc.perform(post("/reserva/agregar")
+                .contentType("application/json")
+                .content(reservaJson))
+                .andExpect(status().isOk())
+    }
+    }
+
+    @Test
+    void actualizar() throws Exception {
+        String reservaJson = """
+                {
+                    "id": 1,
+                    "fecha": 2026-07-06,
+                    "disponible": "true"
+                    "pagoId": 1,
+                    "servicioId": 1
+                }
+                """;
+        when(ReservasService.actualizar(eq(1), any(Reserva.class)))
+                .thenReturn(new Reserva(
+                    1,
+                2026-08-06,
+                13:00,
+                "true",
+                1,
+                1
+                ));
+        mockMvc.perform(put("/reservas/actualizar/1")
+                .contentType("application/json")
+                .content(recipeJson))
+                .andExpect(status().isOk())
+                .andExpect(content().string("La reserva ha sido actualizada con éxito"));
+    }
+
+    @Test
+    void eliminarReceta() throws Exception {
+        doNothing().when(ReservasService).eliminar(1);
+        mockMvc.perform(delete("/reservas/eliminar/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("La reserva ha sido eliminada correctamente"));
+    }
+}
