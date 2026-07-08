@@ -10,7 +10,7 @@ spring:
         - id: ruta-autenticacion
           uri: lb://autenticacion
           predicates:
-            - Path=/autenticacion,/autenticacion/**
+            - Path=/registro,/registro/**
 
         - id: ruta-pagos
           uri: lb://pagos
@@ -47,18 +47,21 @@ spring:
           predicates:
             - Path=/api/mascotas,/api/mascotas/**
 
+        - id: ruta-reservas
+          uri: lb://reservas
+          predicates:
+            - Path=/reservas,/reservas/**
+
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://eureka-server:8761/eureka/
   instance:
     prefer-ip-address: true
-    ip-address: 127.0.0.1
-    hostname: 127.0.0.1
-    instance-id: 127.0.0.1:${spring.application.name}:${server.port}
+    instance-id: ${spring.application.name}:${server.port}
 
 logging:
   level:
-    org.springframework.cloud.gateway: DEBUG
+    "[org.springframework.cloud.gateway]": DEBUG
