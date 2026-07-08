@@ -3,6 +3,7 @@ package com.veterinaria.mascota.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,24 +22,26 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/mascotas")
-@Tag(name = "Mascotas", description = "API de gestión de mascotas")
+@Tag(name = "Mascotas", description = "API para gestión de mascotas")
 public class MascotaController {
 
     @Autowired
     private MascotaService service;
 
+
     @Operation(
         summary = "Listar mascotas",
-        description = "Obtiene una lista con todas las mascotas registradas"
+        description = "Obtiene todas las mascotas registradas"
     )
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Lista obtenida correctamente"),
         @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     @GetMapping
-    public List<Mascota> listar() {
-        return service.obtenerMascotas();
+    public ResponseEntity<List<Mascota>> listar() {
+        return ResponseEntity.ok(service.obtenerMascotas());
     }
+
 
     @Operation(
         summary = "Buscar mascota por ID",
@@ -49,9 +52,10 @@ public class MascotaController {
         @ApiResponse(responseCode = "404", description = "Mascota no encontrada")
     })
     @GetMapping("/{id}")
-    public Mascota obtenerPorId(@PathVariable Integer id) {
-        return service.obtenerPorId(id);
+    public ResponseEntity<Mascota> obtenerPorId(@PathVariable Integer id) {
+        return ResponseEntity.ok(service.obtenerPorId(id));
     }
+
 
     @Operation(
         summary = "Registrar mascota",
@@ -61,10 +65,12 @@ public class MascotaController {
         @ApiResponse(responseCode = "201", description = "Mascota registrada correctamente"),
         @ApiResponse(responseCode = "400", description = "Datos inválidos")
     })
-    @PostMapping
-    public Mascota guardar(@RequestBody Mascota mascota) {
-        return service.guardarMascota(mascota);
+    @PostMapping("/agregar")
+    public ResponseEntity<Mascota> guardar(@RequestBody Mascota mascota) {
+        Mascota nuevaMascota = service.guardarMascota(mascota);
+        return ResponseEntity.status(201).body(nuevaMascota);
     }
+
 
     @Operation(
         summary = "Eliminar mascota",
@@ -74,8 +80,11 @@ public class MascotaController {
         @ApiResponse(responseCode = "200", description = "Mascota eliminada correctamente"),
         @ApiResponse(responseCode = "404", description = "Mascota no encontrada")
     })
-    @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Integer id) {
+    @DeleteMapping("/eliminar/{id}")
+    public ResponseEntity<String> eliminar(@PathVariable Integer id) {
+
         service.eliminarMascota(id);
+
+        return ResponseEntity.ok("Mascota eliminada correctamente");
     }
 }

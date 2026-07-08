@@ -22,7 +22,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 
-@RequestMapping("/pago")
+@RequestMapping("/pagos")
 @RestController
 public class PagosController {
 

@@ -14,7 +14,7 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
  * Al arrancar, ms-productos y ms-clientes se registran aqui.
  * El API Gateway consulta este directorio para saber a donde
  * enviar cada peticion usando el nombre del servicio (lb://).
- *
+ *p
  * @EnableEurekaServer: activa el servidor de registro.
  *   Sin esta anotacion, es una app Boot normal sin registro.
  */
