@@ -4,49 +4,48 @@ server:
 spring:
   application:
     name: api-gateway
-
   cloud:
     gateway:
-      server:
-        webflux:
-          routes:
-            - id: ruta-autenticacion
-              uri: lb://AUTENTICACION
-              predicates:
-                - Path=/autenticacion,/autenticacion/**
+      routes:
+        - id: ruta-autenticacion
+          uri: lb://autenticacion
+          predicates:
+            - Path=/autenticacion,/autenticacion/**
 
-            - id: ruta-pagos
-              uri: lb://PAGOS
-              predicates:
-                - Path=/pagos,/pagos/**
-            - id: ruta-examenes
-              uri: lb://EXAM-SERVICE
-              predicates:
-                - Path=/examenes,/examenes/**
+        - id: ruta-pagos
+          uri: lb://pagos
+          predicates:
+            - Path=/pagos,/pagos/**
 
-            - id: ruta-recetas
-              uri: lb://RECIPE-SERVICE
-              predicates:
-                - Path=/recetas,/recetas/**
+        - id: ruta-examenes
+          uri: lb://exam-service
+          predicates:
+            - Path=/examenes,/examenes/**
 
-            - id: ruta-reviews
-              uri: lb://REVIEWS-SERVICE
-              predicates:
-                - Path=/reviews,/reviews/**
-            - id: ruta-notificaciones
-              uri: lb://NOTIFICACIONES
-              predicates:
-                - Path=/notificaciones,/notificaciones/**
+        - id: ruta-recetas
+          uri: lb://recipe-service
+          predicates:
+            - Path=/recetas,/recetas/**
 
-            - id: ruta-servicios
-              uri: lb://SERVICIOS
-              predicates:
-                - Path=/servicios,/servicios/**
+        - id: ruta-reviews
+          uri: lb://reviews-service
+          predicates:
+            - Path=/reviews,/reviews/**
 
-            - id: ruta-mascotas
-              uri: lb://FICHA
-              predicates:
-                - Path=/api/mascotas,/api/mascotas/**
+        - id: ruta-notificaciones
+          uri: lb://notificaciones
+          predicates:
+            - Path=/notificaciones,/notificaciones/**
+
+        - id: ruta-servicios
+          uri: lb://servicios
+          predicates:
+            - Path=/servicios,/servicios/**
+
+        - id: ruta-mascotas
+          uri: lb://ficha
+          predicates:
+            - Path=/api/mascotas,/api/mascotas/**
 
 eureka:
   client:
@@ -54,7 +53,6 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka/
-
   instance:
     prefer-ip-address: true
     ip-address: 127.0.0.1
