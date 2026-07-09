@@ -34,7 +34,7 @@ public class ServiciosController {
         this.service = service;
     }
 
-    @Operation(summary = "Registrar un servicio")
+    @Operation(summary = "Registrar servicio", description = "Crea y registra un nuevo servicio en el sistema")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "Servicio creado"),
         @ApiResponse(responseCode = "400", description = "Datos inválidos")
@@ -48,14 +48,14 @@ public class ServiciosController {
         return ResponseEntity.status(201).body(nuevo);
     }
 
-    @Operation(summary = "Listar todos los servicios")
+    @Operation(summary = "Listar servicios", description = "Recibe una lista de todos los servicios disponibles")
     @ApiResponse(responseCode = "200", description = "Lista obtenida correctamente")
     @GetMapping("/listar")
     public List<Servicios> listarServicios() {
         return service.obtenerServicios();
     }
 
-    @Operation(summary = "Buscar servicio por ID")
+    @Operation(summary = "Buscar servicio por ID", description = "Buscar un servicio especificio a traves de su ID unico")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Servicio encontrado"),
         @ApiResponse(responseCode = "404", description = "Servicio no encontrado")
@@ -73,7 +73,7 @@ public class ServiciosController {
         return ResponseEntity.ok(servicio);
     }
 
-    @Operation(summary = "Buscar servicios por tipo")
+    @Operation(summary = "Buscar servicio por tipo", description = "Busca un servicio en base al tipo de servicio que buscas")
     @ApiResponse(responseCode = "200", description = "Búsqueda realizada")
     @GetMapping("/buscar")
     public List<Servicios> buscarPorTipo(
@@ -82,7 +82,7 @@ public class ServiciosController {
         return service.buscarPorTipo(tipo);
     }
 
-    @Operation(summary = "Actualizar un servicio")
+    @Operation(summary = "Actualizar servicio", description = "Cambia los datos de un servicio")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Servicio actualizado"),
         @ApiResponse(responseCode = "404", description = "Servicio no encontrado")
@@ -102,7 +102,7 @@ public class ServiciosController {
         return ResponseEntity.ok(actualizado);
     }
 
-    @Operation(summary = "Eliminar un servicio")
+    @Operation(summary = "Eliminar servicio", description = "Borrar existencia de un servicio a traves del ID")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "204", description = "Servicio eliminado"),
         @ApiResponse(responseCode = "404", description = "Servicio no encontrado")
@@ -122,7 +122,7 @@ public class ServiciosController {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "Listar servicios mediante DTO")
+    @Operation(summary = "Listar mediante DTO", description = "Obtener una lista de servicios disponibles mediante el DTO")
     @ApiResponse(responseCode = "200", description = "DTO obtenido correctamente")
     @GetMapping("/listar-dto")
     public List<ServiciosListadoDTO> listarDTO() {
