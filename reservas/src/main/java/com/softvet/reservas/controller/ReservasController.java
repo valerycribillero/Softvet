@@ -76,6 +76,7 @@ public class ReservasController {
 )  
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Reserva eliminada correctamente"),
+            @ApiResponse(responseCode = "400", description = "Datos ingresados incorrectos"),
             @ApiResponse(responseCode = "500", description = "Error interno del servidor")
 })
 
@@ -98,6 +99,7 @@ public class ReservasController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Reserva agregada correctamente correctamente"),
             @ApiResponse(responseCode= "201", description = "Se guardaron los datos correctamente"),
+            @ApiResponse(responseCode = "400", description = "Datos ingresados incorrectos"),
             @ApiResponse(responseCode = "500", description = "Error interno del servidor")
 })
 
